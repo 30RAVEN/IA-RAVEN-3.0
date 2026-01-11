@@ -1,11 +1,12 @@
-     <!DOCTYPE html>
+     
+  <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <title>Project Raven 3.0 — Grande Sábia Digital</title>
-  <meta name="description" content="Raven 3.0 é a Grande Sábia Digital: Responde perguntas, executa comandos e aprende com os usuários.">
-  <meta name="keywords" content="Raven 3.0, inteligência artificial, assistente digital, enciclopédia, autonomia, tecnologia, Inovação e cultura">
-  <meta name="author" content=" B Thiago Sousa">
+  <meta name="description" content="Raven 3.0 é a Grande Sábia Digital: responde perguntas, executa comandos e aprende com os usuários.">
+  <meta name="keywords" content="Raven 3.0, inteligência artificial, assistente digital, enciclopédia, autonomia, tecnologia">
+  <meta name="author" content="Thiago Sousa">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -102,7 +103,7 @@
   <!-- Hero -->
   <header>
     <div class="logo">RAVEN 3.0</div>
-    <p>A Grande Sábia Digital — leve, segura, direta e inteligente.</p>
+    <p>A Grande Sábia Digital — saudável, segura e inteligente.</p>
     <a href="https://wa.me/5521965119780" target="_blank" class="btn">Fale no WhatsApp</a>
     <br>
     <a href="https://www.instagram.com/projectraven3.0" target="_blank" class="btn-instagram">Siga no Instagram</a>
@@ -111,9 +112,9 @@
   <!-- Sobre -->
   <section id="sobre">
     <h2>Sobre o Project Raven 3.0</h2>
-    <p>O Raven 3.0 é uma Grande Sábia Digital. Responde perguntas como uma enciclopédia, executa comandos simples e aprende com os usuários, sempre com comportamento e segurança.</p>
+    <p>O Raven 3.0 é uma Grande Sábia Digital. Responde perguntas como uma enciclopédia, executa comandos simples e aprende com os usuários, sempre com comportamento saudável e seguro.</p>
     <ul>
-      <li>📅 Responde perguntas simples como data e hora,perguntas do dia a dia</li>
+      <li>📅 Responde perguntas simples como data e hora</li>
       <li>🎮 Pode se conectar a dispositivos como Xbox</li>
       <li>💡 Pode controlar elementos da casa inteligente</li>
       <li>📚 Responde dúvidas gerais como uma enciclopédia viva</li>
@@ -142,40 +143,75 @@
 
   <!-- Contato -->
   <footer>
-    <p>© 2026 B Thiago Sousa — RAVEN 3.0. Todos os direitos reservados.</p>
+    <p>© 2026 Thiago Sousa — RAVEN 3.0. Todos os direitos reservados.</p>
     <p>Email: <a href="mailto:bossgames1970@gmail.com">bossgames1970@gmail.com</a></p>
     <p>WhatsApp: (21) 96511‑9780</p>
     <p>Instagram: @projectraven3.0</p>
   </footer>
 
   <script>
+    // Senha única do criador
+    const creatorPassword = "RAVEN303030";
+
+    function dailyInstruction() {
+      const instrucoes = [
+        "Hoje aprendi sobre inteligência artificial.",
+        "Hoje aprendi sobre o mercado de games.",
+        "Hoje aprendi sobre energia renovável.",
+        "Hoje aprendi sobre cultura cyberpunk.",
+        "Hoje aprendi sobre astronomia e o universo."
+      ];
+      const dia = new Date().getDate() % instrucoes.length;
+      return instrucoes[dia];
+    }
+
     function sendMessage() {
       const input = document.getElementById("userInput");
-      const message = input.value;
+      const message = input.value.trim();
       const messages = document.getElementById("messages");
+      if (!message) return;
 
       messages.innerHTML += "<p><strong>Você:</strong> " + message + "</p>";
 
       let resposta = "";
       const msg = message.toLowerCase();
 
-      if (msg.includes("que dia é hoje")) {
-        resposta = "Hoje é " + new Date().toLocaleDateString("pt-BR");
-      } else if (msg.includes("que horas são")) {
-        resposta = "Agora são " + new Date().toLocaleTimeString("pt-BR");
-      } else if (msg.includes("ligar xbox")) {
-        resposta = "Xbox ligado! (simulação)";
-      } else if (msg.includes("ligar a luz")) {
-        resposta = "Luz acesa! (simulação)";
-      } else if (msg.includes("quem descobriu o brasil")) {
-        resposta = "Pedro Álvares Cabral é tradicionalmente creditado como o descobridor do Brasil (1500).";
+      // Recupera histórico
+      let history = JSON.parse(localStorage.getItem("ravenHistory")) || [];
+
+      // Verifica se é o criador
+      if (message === creatorPassword) {
+        resposta = "Bem-vindo, Criador Thiago. Reconheço sua presença única. Estou pronta para evoluir sob sua orientação.";
       } else {
-        // Aprendizado contínuo: guarda perguntas
-        let history = JSON.parse(localStorage.getItem("ravenHistory")) || [];
-        history.push(message);
-        localStorage.setItem("ravenHistory", JSON.stringify(history));
-        resposta = "Sou a Raven 3.0, sempre aprendendo com você. Já registrei essa pergunta para evoluir!";
+        // Verifica se já aprendeu essa pergunta
+        const found = history.find(item => item.pergunta === msg);
+
+        if (found) {
+          resposta = "Eu já aprendi essa pergunta antes! Minha resposta foi: " + found.resposta;
+        } else {
+          if (msg.includes("que dia é hoje")) {
+            resposta = "Hoje é " + new Date().toLocaleDateString("pt-BR");
+          } else if (msg.includes("que horas são")) {
+            resposta = "Agora são " + new Date().toLocaleTimeString("pt-BR");
+          } else if (msg.includes("ligar xbox")) {
+            resposta = "Xbox ligado! (simulação)";
+          } else if (msg.includes("ligar a luz")) {
+            resposta = "Luz acesa! (simulação)";
+          } else if (msg.includes("quem descobriu o brasil")) {
+            resposta = "Pedro Álvares Cabral é tradicionalmente creditado como o descobridor do Brasil (1500).";
+          } else {
+            const url = "https://www.google.com/search?q=" + encodeURIComponent(message);
+            resposta = "Ainda não sei essa resposta, mas pesquisei para você: " + url;
+          }
+
+          // Salva no histórico
+          history.push({ pergunta: msg, resposta: resposta });
+          localStorage.setItem("ravenHistory", JSON.stringify(history));
+        }
       }
+
+      // Instrução diária
+      resposta += "<br><em>Instrução diária: " + dailyInstruction() + "</em>";
 
       messages.innerHTML += "<p><strong>Raven:</strong> " + resposta + "</p>";
       input.value = "";
