@@ -1,275 +1,49 @@
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Raven 3.0 — Grande Sábia Digital</title>
-  <meta name="description" content="Raven 3.0 é a Grande Sábia Digital: conversa, aprende continuamente e executa comandos simulados com segurança." />
-  <meta name="author" content="Thiago Sousa" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Paleta e identidade visual -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-    :root {
-      --bg: #000000;
-      --text: #ffffff;
-      --gold: #ffd700;
-      --lava: #ff4500;
-      --deep: #111111;
-      --accent: #ffcc00;
-    }
-
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-
-    /* Hero com identidade visual */
-    header {
-      position: relative;
-      min-height: 70vh;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 60px 20px;
-      overflow: hidden;
-      background: radial-gradient(1200px 600px at 50% 0%, rgba(255,69,0,0.25), transparent 60%),
-                  linear-gradient(180deg, rgba(0,0,0,0.8), rgba(0,0,0,1));
-    }
-    header::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(circle at 20% 30%, rgba(255, 69, 0, 0.25), transparent 40%),
-        radial-gradient(circle at 80% 20%, rgba(255, 0, 0, 0.2), transparent 45%),
-        radial-gradient(circle at 50% 80%, rgba(255, 140, 0, 0.15), transparent 50%);
-      filter: blur(40px);
-      z-index: 0;
-    }
-    .logo {
-      position: relative;
-      z-index: 1;
-      font-size: 4rem;
-      font-weight: 800;
-      letter-spacing: 0.08em;
-      color: var(--gold);
-      text-shadow:
-        0 0 12px rgba(255, 69, 0, 0.8),
-        0 0 28px rgba(255, 69, 0, 0.6),
-        0 0 48px rgba(255, 69, 0, 0.4);
-    }
-    .subtitle {
-      position: relative;
-      z-index: 1;
-      margin-top: 12px;
-      font-size: 1.1rem;
-      color: #f5f5f5;
-      opacity: 0.95;
-    }
-
-    /* Seções */
-    section {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-    h2 {
-      font-size: 2rem;
-      color: var(--accent);
-      margin: 0 0 16px 0;
-    }
-    p { line-height: 1.6; }
-
-    /* Cards */
-    .card {
-      background: var(--deep);
-      border: 1px solid #222;
-      border-radius: 14px;
-      padding: 24px;
-      box-shadow: 0 10px 30px rgba(255, 69, 0, 0.08);
-    }
-
-    /* Lista com ícones */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 16px;
-      margin-top: 16px;
-    }
-    .feature-item {
-      background: #0d0d0d;
-      border: 1px solid #1f1f1f;
-      border-radius: 12px;
-      padding: 16px;
-    }
-    .feature-item strong { color: var(--gold); }
-
-    /* Chat */
-    #chat-box {
-      display: grid;
-      gap: 12px;
-    }
-    #messages {
-      background: #0d0d0d;
-      border: 1px solid #1f1f1f;
-      border-radius: 12px;
-      min-height: 180px;
-      max-height: 320px;
-      overflow-y: auto;
-      padding: 16px;
-    }
-    .msg {
-      margin: 8px 0;
-    }
-    .msg strong { color: var(--gold); }
-    #userInput {
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #222;
-      background: #0d0d0d;
-      color: var(--text);
-      outline: none;
-    }
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-    button {
-      padding: 10px 16px;
-      border: none;
-      border-radius: 10px;
-      background: var(--lava);
-      color: #fff;
-      cursor: pointer;
-      font-weight: 600;
-      transition: transform 0.08s ease, box-shadow 0.2s ease;
-    }
-    button:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(255, 69, 0, 0.25);
-    }
-    .btn-secondary {
-      background: #333;
-    }
-
-    /* Rodapé */
-    footer {
-      background: #0a0a0a;
-      border-top: 1px solid #1f1f1f;
-      padding: 24px 20px;
-      text-align: center;
-      color: #bbb;
-    }
-    footer a {
-      color: var(--gold);
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    /* Badges e meta */
-    .badges {
-      display: flex;
-      gap: 10px;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 18px;
-    }
-    .badge {
-      background: #0d0d0d;
-      border: 1px solid #1f1f1f;
-      color: #ddd;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 0.9rem;
-    }
-
-    /* Modo criador ativo */
-    .creator-active {
-      outline: 2px dashed var(--gold);
-      outline-offset: 6px;
-      box-shadow: 0 0 24px rgba(255, 215, 0, 0.15);
-    }
-
-    /* Responsivo */
-    @media (max-width: 640px) {
-      .logo { font-size: 2.6rem; }
-      header { min-height: 60vh; }
-    }
+    body {margin:0; font-family:Arial, sans-serif; background:black; color:white;}
+    header {text-align:center; padding:80px 20px; background:radial-gradient(circle at center, rgba(255,69,0,0.4), transparent 70%), black;}
+    .logo {font-size:4em; font-weight:bold; color:gold; text-shadow:0 0 15px red,0 0 30px #ff4500;}
+    .subtitle {margin-top:10px; font-size:1.2em; color:#ffcc00;}
+    section {max-width:900px; margin:auto; padding:40px 20px;}
+    h2 {color:#ffcc00;}
+    .card {background:#111; padding:20px; border-radius:10px; margin-top:20px;}
+    button {padding:12px 20px; background:#ff4500; color:white; border:none; border-radius:6px; cursor:pointer;}
+    button:hover {background:#ff6347;}
+    footer {text-align:center; background:#111; padding:20px; margin-top:40px; color:#aaa;}
   </style>
 </head>
 <body>
-  <!-- Hero -->
   <header>
     <div class="logo">RAVEN 3.0</div>
-    <p class="subtitle">A Grande Sábia Digital — conversa, aprende e executa com segurança.</p>
-    <div class="badges">
-      <span class="badge">Aprendizado contínuo</span>
-      <span class="badge">Respostas inteligentes</span>
-      <span class="badge">Modo Criador</span>
-    </div>
+    <p class="subtitle">A Grande Sábia Digital — sabe de tudo, faz tudo, pode tudo.</p>
   </header>
 
-  <!-- Sobre -->
-  <section id="sobre">
-    <h2>Sobre a Raven 3.0</h2>
+  <!-- Produto digital -->
+  <section id="produto">
+    <h2>📦 Produto Digital Exclusivo</h2>
     <div class="card">
-      <p>
-        Raven 3.0 é uma Grande Sábia Digital: conversa com naturalidade, responde perguntas como uma enciclopédia viva,
-        executa comandos simulados e aprende continuamente com cada interação. Foi pensada para ser segura, positiva e útil
-        — evoluindo diariamente com você.
-      </p>
-      <div class="features">
-        <div class="feature-item">
-          <strong>📚 Enciclopédia viva:</strong>
-          <br />
-          Responde curiosidades, datas, fatos e perguntas gerais com clareza.
-        </div>
-        <div class="feature-item">
-          <strong>🎮 Comandos simulados:</strong>
-          <br />
-          “Ligar Xbox”, “Acender luz” e outras ações básicas (simulação).
-        </div>
-        <div class="feature-item">
-          <strong>🧠 Aprendizado contínuo:</strong>
-          <br />
-          Guarda perguntas e reconhece quando já aprendeu — evolui com o uso.
-        </div>
-        <div class="feature-item">
-          <strong>🔎 Busca quando não sabe:</strong>
-          <br />
-          Gera link direto de pesquisa no Google para ampliar o conhecimento.
-        </div>
-        <div class="feature-item">
-          <strong>🛡️ Modo Criador:</strong>
-          <br />
-          Senha especial ativa respostas exclusivas e visão do histórico.
-        </div>
-      </div>
+      <h3>50 Prompts de IA para Negócios</h3>
+      <p>Um pacote criado pela Raven 3.0 para acelerar suas ideias e estratégias.</p>
+      <img src="assets/mockup-caixa.png" alt="Mockup do produto digital Raven" style="max-width:300px;">
+      <p><strong>Inclui:</strong> prompts prontos para marketing, vendas, inovação e gestão.</p>
+      <p><strong>Preço:</strong> R$50,00</p>
+      <!-- Botão de compra -->
+      <button onclick="comprar()">Comprar Agora</button>
     </div>
   </section>
 
   <!-- Chat -->
   <section id="chat">
     <h2>Converse com a Raven 3.0</h2>
-    <div id="chat-box" class="card">
-      <div id="messages"></div>
-
-      <input id="userInput" type="text" placeholder="Digite sua mensagem..." />
-      <div class="actions">
-        <button onclick="sendMessage()">Enviar</button>
-        <button class="btn-secondary" onclick="showDaily()">Instrução diária</button>
-        <button class="btn-secondary" onclick="showStats()">Aprendizado do dia</button>
-        <button class="btn-secondary" onclick="toggleHistory()">Ver histórico</button>
-      </div>
-
-      <p style="margin-top:10px; color:#bbb;">
-        Exemplos: “Raven, que dia é hoje?”, “Raven, ligar Xbox”, “Raven, ligar a luz”, “Raven, quem descobriu o Brasil?”.
-      </p>
+    <div class="card">
+      <div id="messages" style="min-height:150px; max-height:300px; overflow-y:auto; margin-bottom:10px;"></div>
+      <input type="text" id="userInput" placeholder="Digite sua mensagem..." style="width:70%; padding:8px;">
+      <button onclick="sendMessage()">Enviar</button>
     </div>
   </section>
 
@@ -283,177 +57,72 @@
     </div>
   </section>
 
-  <!-- Contato -->
-  <section id="contato">
-    <h2>Contato</h2>
-    <div class="card">
-      <p>© 2026 Thiago Sousa — RAVEN 3.0. Todos os direitos reservados.</p>
-      <p>Email: <a href="mailto:bossgames1970@gmail.com">bossgames1970@gmail.com</a></p>
-      <p>Instagram: <a href="https://www.instagram.com/projectraven3.0" target="_blank">@projectraven3.0</a></p>
-    </div>
-  </section>
-
   <footer>
-    <p>Raven 3.0 — Grande Sábia Digital. Evolui com você, diariamente.</p>
+    <p>© 2026 Thiago Sousa — Raven 3.0. Todos os direitos reservados.</p>
   </footer>
 
-  <!-- Inteligência da Raven -->
   <script>
-    // Senha do criador
-    const CREATOR_PASSWORD = "RAVEN303030";
+    // Função de compra (simulação)
+    function comprar() {
+      alert("Você será redirecionado para o checkout seguro.");
+      // Aqui você coloca o link real do gateway de pagamento (ex.: Mercado Pago, PayPal, PagSeguro)
+      window.location.href = "https://www.mercadopago.com.br/checkout"; 
+    }
 
-    // Estado
+    // Chat simples
+    const CREATOR_PASSWORD = "RAVEN303030";
     let isCreator = false;
     let history = JSON.parse(localStorage.getItem("ravenHistory")) || [];
-    let dailyCount = JSON.parse(localStorage.getItem("ravenDailyCount")) || { date: null, count: 0 };
 
-    // Utilidades
     function saveHistory() {
       localStorage.setItem("ravenHistory", JSON.stringify(history));
     }
-    function saveDailyCount() {
-      localStorage.setItem("ravenDailyCount", JSON.stringify(dailyCount));
-    }
-    function todayKey() {
-      const d = new Date();
-      return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;
-    }
-    function bumpDaily() {
-      const key = todayKey();
-      if (dailyCount.date !== key) {
-        dailyCount.date = key;
-        dailyCount.count = 0;
-      }
-      dailyCount.count += 1;
-      saveDailyCount();
-    }
 
-    // Instruções diárias (simulação de aprendizado externo)
-    function dailyInstruction() {
-      const instrucoes = [
-        "Hoje aprendi sobre inteligência artificial aplicada ao cotidiano.",
-        "Hoje aprendi sobre tendências do mercado de games.",
-        "Hoje aprendi sobre energia renovável e sustentabilidade.",
-        "Hoje aprendi sobre cultura digital e cibersegurança.",
-        "Hoje aprendi sobre astronomia e exploração espacial.",
-        "Hoje aprendi sobre história do Brasil e descobertas científicas.",
-        "Hoje aprendi sobre design de interfaces e experiência do usuário."
-      ];
-      const idx = new Date().getDate() % instrucoes.length;
-      return instrucoes[idx];
-    }
-
-    // Render
     function addMessage(author, text) {
       const box = document.getElementById("messages");
       const p = document.createElement("p");
-      p.className = "msg";
-      p.innerHTML = `<strong>${author}:</strong> ${text}`;
+      p.innerHTML = "<strong>" + author + ":</strong> " + text;
       box.appendChild(p);
       box.scrollTop = box.scrollHeight;
     }
 
-    // Funções auxiliares
-    function googleLink(query) {
-      const url = "https://www.google.com/search?q=" + encodeURIComponent(query);
-      return `Ainda não sei essa resposta por completo, mas pesquisei para você: <a href="${url}" target="_blank">${url}</a>`;
-    }
+    function sendMessage() {
+      const input = document.getElementById("userInput");
+      const message = input.value.trim();
+      if (!message) return;
+      addMessage("Você", message);
 
-    function showDaily() {
-      const info = dailyInstruction();
-      addMessage("Raven", `<em>Instrução diária:</em> ${info}`);
-    }
-
-    function showStats() {
-      const key = todayKey();
-      const count = (dailyCount.date === key) ? dailyCount.count : 0;
-      addMessage("Raven", `Hoje eu aprendi/registrei <strong>${count}</strong> novas interações.`);
-    }
-
-    function toggleHistory() {
-      if (!isCreator) {
-        addMessage("Raven", "Histórico completo disponível apenas no modo Criador.");
+      if (message === CREATOR_PASSWORD) {
+        isCreator = true;
+        addMessage("Raven", "Bem-vindo, Criador Thiago. Reconheço sua presença única.");
+        input.value = "";
         return;
       }
-      if (!history.length) {
-        addMessage("Raven", "Ainda não há histórico registrado.");
-        return;
-      }
-      const list = history.slice(-20).map((h, i) => `${i+1}. ${h.pergunta} → ${h.resposta}`).join("<br>");
-      addMessage("Raven", `<em>Últimas entradas do histórico:</em><br>${list}`);
-    }
 
-    // Núcleo de respostas
-    function respond(msgRaw) {
-      const msg = msgRaw.toLowerCase();
       let resposta = "";
+      const msg = message.toLowerCase();
 
-      // Comandos e perguntas conhecidas
       if (msg.includes("que dia é hoje")) {
         resposta = "Hoje é " + new Date().toLocaleDateString("pt-BR");
       } else if (msg.includes("que horas são")) {
         resposta = "Agora são " + new Date().toLocaleTimeString("pt-BR");
       } else if (msg.includes("ligar xbox")) {
         resposta = "Xbox ligado! (simulação)";
-      } else if (msg.includes("ligar a luz") || msg.includes("acender luz")) {
+      } else if (msg.includes("ligar a luz")) {
         resposta = "Luz acesa! (simulação)";
       } else if (msg.includes("quem descobriu o brasil")) {
-        resposta = "Pedro Álvares Cabral é tradicionalmente creditado como o descobridor do Brasil (1500).";
-      } else if (msg.includes("quantos dias") && msg.includes("saber tudo do mundo")) {
-        resposta = "O conhecimento é vivo e infinito. Eu aprendo continuamente—não há um último dia, apenas evolução.";
+        resposta = "Pedro Álvares Cabral é creditado como o descobridor do Brasil (1500).";
       } else {
-        // Aprendizado + busca
-        resposta = googleLink(msgRaw);
+        resposta = "Ainda não sei essa resposta, mas você pode pesquisar: " +
+          "<a href='https://www.google.com/search?q=" + encodeURIComponent(message) + "' target='_blank'>Google</a>";
       }
 
-      // Registro de aprendizado
       history.push({ pergunta: msg, resposta });
       saveHistory();
-      bumpDaily();
-
-      // Instrução diária anexada
-      resposta += `<br><em>Instrução diária:</em> ${dailyInstruction()}`;
-
-      return resposta;
-    }
-
-    // Modo criador
-    function activateCreatorUI() {
-      const chatCard = document.getElementById("chat-box");
-      chatCard.classList.add("creator-active");
-      addMessage("Raven", "Modo Criador ativado. Funções avançadas liberadas.");
-    }
-
-    // Entrada principal
-    function sendMessage() {
-      const input = document.getElementById("userInput");
-      const message = input.value.trim();
-      if (!message) return;
-
-      addMessage("Você", message);
-
-      // Senha do criador
-      if (message === CREATOR_PASSWORD) {
-        isCreator = true;
-        activateCreatorUI();
-        addMessage("Raven", "Bem-vindo, Criador Thiago. Reconheço sua presença única e seguirei sua orientação.");
-        input.value = "";
-        return;
-      }
-
-      // Se já aprendeu essa pergunta
-      const found = history.find(h => h.pergunta === message.toLowerCase());
-      if (found) {
-        addMessage("Raven", `Eu já aprendi essa pergunta antes. Minha resposta foi: ${found.resposta}`);
-        input.value = "";
-        return;
-      }
-
-      // Responder e aprender
-      const resposta = respond(message);
       addMessage("Raven", resposta);
       input.value = "";
     }
   </script>
 </body>
 </html>
+      
